@@ -21901,7 +21901,7 @@
       }
     }
   },
-  "generated_at": "2026-02-12T13:35:18.963739+00:00",
+  "generated_at": "2026-02-12T14:11:32.756820+00:00",
   "other_bucket": "OtherSports",
   "type_meta": {
     "Hike": {
@@ -21918,11 +21918,11 @@
     },
     "TrailRun": {
       "accent": "#00bbf9",
-      "label": "TrailRun"
+      "label": "Trail Run"
     },
     "VirtualRide": {
       "accent": "#fee440",
-      "label": "VirtualRide"
+      "label": "Virtual Ride"
     },
     "Walk": {
       "accent": "#d6ff6b",
@@ -21930,7 +21930,7 @@
     },
     "WeightTraining": {
       "accent": "#ff71ce",
-      "label": "WeightTraining"
+      "label": "Weight Training"
     },
     "Workout": {
       "accent": "#9b5de5",
