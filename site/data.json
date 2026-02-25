@@ -2127,6 +2127,13 @@
       "subtype": "running",
       "type": "Run",
       "year": 2026
+    },
+    {
+      "date": "2026-02-25",
+      "hour": 23,
+      "subtype": "running",
+      "type": "Run",
+      "year": 2026
     }
   ],
   "aggregates": {
@@ -4687,6 +4694,15 @@
           "distance": 8881.2001953125,
           "elevation_gain": 36.769999980926514,
           "moving_time": 3959.9320068359375
+        },
+        "2026-02-25": {
+          "activity_ids": [
+            "21982120767"
+          ],
+          "count": 1,
+          "distance": 2545.639892578125,
+          "elevation_gain": 4.889999985694885,
+          "moving_time": 1175.5169982910156
         }
       },
       "Swim": {
@@ -4783,7 +4799,7 @@
       }
     }
   },
-  "generated_at": "2026-02-24T15:53:27.223877+00:00",
+  "generated_at": "2026-02-25T15:58:12.072391+00:00",
   "other_bucket": "OtherSports",
   "source": "garmin",
   "type_meta": {
