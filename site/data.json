@@ -2176,6 +2176,20 @@
       "subtype": "running",
       "type": "Run",
       "year": 2026
+    },
+    {
+      "date": "2026-03-15",
+      "hour": 9,
+      "subtype": "lap_swimming",
+      "type": "Swim",
+      "year": 2026
+    },
+    {
+      "date": "2026-03-15",
+      "hour": 23,
+      "subtype": "running",
+      "type": "Run",
+      "year": 2026
     }
   ],
   "aggregates": {
@@ -4790,6 +4804,15 @@
           "distance": 4147.60986328125,
           "elevation_gain": 10.019999999552965,
           "moving_time": 1839.7040100097656
+        },
+        "2026-03-15": {
+          "activity_ids": [
+            "22184011786"
+          ],
+          "count": 1,
+          "distance": 8200.9501953125,
+          "elevation_gain": 22.899999976158142,
+          "moving_time": 3433.1959838867188
         }
       },
       "Swim": {
@@ -4891,11 +4914,20 @@
           "distance": 750.0,
           "elevation_gain": 0.0,
           "moving_time": 1167.3280029296875
+        },
+        "2026-03-15": {
+          "activity_ids": [
+            "22184011488"
+          ],
+          "count": 1,
+          "distance": 800.0,
+          "elevation_gain": 0.0,
+          "moving_time": 1156.5360107421875
         }
       }
     }
   },
-  "generated_at": "2026-03-15T15:24:41.745602+00:00",
+  "generated_at": "2026-03-16T16:02:00.759151+00:00",
   "other_bucket": "OtherSports",
   "source": "garmin",
   "type_meta": {
