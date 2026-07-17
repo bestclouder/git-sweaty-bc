@@ -2208,14 +2208,98 @@ function renderLoadError(error) {
   heatmaps.appendChild(card);
 }
 
-async function init() {
-  syncRepoLink();
+const PASSPHRASE_STORAGE_KEY = "dashboardPassphrase";
+
+function promptForPassphrase(envelope) {
+  const overlay = document.getElementById("lockOverlay");
+  const form = document.getElementById("lockForm");
+  const input = document.getElementById("lockInput");
+  const errorEl = document.getElementById("lockError");
+  overlay.hidden = false;
+  input.focus();
+  return new Promise((resolve) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const passphrase = input.value;
+      if (!passphrase) return;
+      errorEl.textContent = "";
+      try {
+        const data = await SweatyCrypto.decryptEnvelope(envelope, passphrase);
+        try {
+          sessionStorage.setItem(PASSPHRASE_STORAGE_KEY, passphrase);
+        } catch (storageError) {
+          // Private browsing may block sessionStorage; unlock still works for this page view.
+        }
+        overlay.hidden = true;
+        resolve(data);
+      } catch (error) {
+        input.value = "";
+        input.focus();
+        errorEl.textContent = "Wrong passphrase. Try again.";
+      }
+    });
+  });
+}
+
+function addLockControl() {
+  const header = document.querySelector(".header-top");
+  if (!header || document.getElementById("lockControl")) return;
+  const lock = document.createElement("button");
+  lock.type = "button";
+  lock.id = "lockControl";
+  lock.className = "lock-link";
+  lock.textContent = "Lock dashboard";
+  lock.addEventListener("click", () => {
+    try {
+      sessionStorage.removeItem(PASSPHRASE_STORAGE_KEY);
+    } catch (storageError) {
+      // ignore
+    }
+    window.location.reload();
+  });
+  header.appendChild(lock);
+}
+
+async function resolvePayload() {
   const resp = await fetch("data.json");
   if (!resp.ok) {
     throw new Error(`Failed to load data.json (${resp.status})`);
   }
-  const payload = await resp.json();
-  if (!payload || typeof payload !== "object") {
+  const raw = await resp.json();
+  if (!raw || typeof raw !== "object") {
+    throw new Error("Invalid dashboard data format.");
+  }
+  if (!window.SweatyCrypto || !SweatyCrypto.isEnvelope(raw)) {
+    return raw;
+  }
+  let cached = null;
+  try {
+    cached = sessionStorage.getItem(PASSPHRASE_STORAGE_KEY);
+  } catch (storageError) {
+    cached = null;
+  }
+  if (cached) {
+    try {
+      const data = await SweatyCrypto.decryptEnvelope(raw, cached);
+      addLockControl();
+      return data;
+    } catch (error) {
+      try {
+        sessionStorage.removeItem(PASSPHRASE_STORAGE_KEY);
+      } catch (storageError) {
+        // ignore
+      }
+    }
+  }
+  const data = await promptForPassphrase(raw);
+  addLockControl();
+  return data;
+}
+
+async function init() {
+  syncRepoLink();
+  const payload = await resolvePayload();
+  if (!payload || typeof payload !== "object" || !Array.isArray(payload.activities)) {
     throw new Error("Invalid dashboard data format.");
   }
   setDashboardTitle(payload.source);

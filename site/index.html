@@ -1351,6 +1351,59 @@
         }
       }
 
+      .lock-overlay[hidden] { display: none; }
+      .lock-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(4, 6, 12, 0.96);
+      }
+      .lock-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: min(340px, calc(100vw - 48px));
+        padding: 28px;
+        border: 1px solid #2b3245;
+        border-radius: 12px;
+        background: #10141f;
+        text-align: center;
+      }
+      .lock-title { margin: 0; font-size: 20px; }
+      .lock-text { margin: 0; opacity: 0.75; font-size: 14px; }
+      .lock-input {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #2b3245;
+        background: #0a0d15;
+        color: inherit;
+        font-size: 15px;
+      }
+      .lock-button {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #2b3245;
+        background: #1d2434;
+        color: inherit;
+        font-size: 15px;
+        cursor: pointer;
+      }
+      .lock-button:hover { background: #273049; }
+      .lock-error { min-height: 18px; color: #ff6b81; font-size: 13px; }
+      .lock-link {
+        background: none;
+        border: none;
+        color: inherit;
+        opacity: 0.6;
+        cursor: pointer;
+        font-size: 12px;
+        text-decoration: underline;
+        padding: 0;
+      }
+      .lock-link:hover { opacity: 1; }
     </style>
   </head>
   <body>
@@ -1394,6 +1447,18 @@
 
     <div id="tooltip" class="tooltip"></div>
 
+    <div id="lockOverlay" class="lock-overlay" hidden>
+      <form id="lockForm" class="lock-card">
+        <h2 class="lock-title">Private dashboard</h2>
+        <p class="lock-text">Enter the passphrase to unlock.</p>
+        <input type="password" id="lockInput" class="lock-input" autocomplete="current-password" autofocus />
+        <button type="submit" class="lock-button">Unlock</button>
+        <div id="lockError" class="lock-error" role="alert"></div>
+      </form>
+    </div>
+
+    <script src="crypto.js?v=__APP_VERSION__"></script>
+    <script src="stats.js?v=__APP_VERSION__"></script>
     <script src="app.js?v=__APP_VERSION__"></script>
   </body>
 </html>
