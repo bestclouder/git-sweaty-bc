@@ -89,5 +89,5 @@ activities:
   type_aliases: {}          # optional explicit remaps; keep empty for exact source naming
 
 units:
-  distance: "mi"   # "mi" or "km"
-  elevation: "ft"  # "ft" or "m"
+  distance: "km"   # "mi" or "km"
+  elevation: "m"   # "ft" or "m"

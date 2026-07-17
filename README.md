@@ -139,6 +139,26 @@ Key options:
 - `units.elevation` (`ft` or `m`)
 - `rate_limits.*` (Strava API throttling caps; ignored for Garmin)
 
+## Private dashboard (optional)
+
+You can require a passphrase to view the dashboard:
+
+1. Add a repository secret `DASHBOARD_PASSPHRASE` (Settings → Secrets and variables → Actions). Pick a strong passphrase — anyone who has it can view the dashboard.
+2. Re-run the [Sync Heatmaps](../../actions/workflows/sync.yml) workflow.
+
+From then on `site/data.json` is published encrypted (AES-256-GCM, key derived from your passphrase), and the site shows an unlock screen. The passphrase is remembered for the browser session only. Remove the secret and re-run the sync to go public again.
+
+**Scope of protection:** this encrypts the published dashboard data. The `dashboard-data` branch of this repository still contains plaintext aggregates for the pipeline. If you want that private too, make the repository private — GitHub Pages keeps serving the (encrypted) site.
+
+## Stats view
+
+The dashboard has a second tab — **Stats** — with:
+
+- weekly and monthly at-a-glance cards (distance, active time, avg pace, activities, elevation, estimated effort) compared against the previous period
+- weekly distance trends and monthly rollups with prior-year context
+- per-sport pace & performance tables
+- streaks, active days, and day-of-week / time-of-day patterns
+
 ## Notes
 
 - Raw activities are stored locally for processing but are not committed (`activities/raw/` is ignored). This prevents publishing detailed per-activity payloads and GPS location traces.
