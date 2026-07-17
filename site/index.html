@@ -1351,6 +1351,97 @@
         }
       }
 
+      .view-toggle {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 10px 0 4px;
+      }
+      .view-toggle-button {
+        padding: 7px 22px;
+        border-radius: 999px;
+        border: 1px solid #2b3245;
+        background: transparent;
+        color: inherit;
+        opacity: 0.65;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .view-toggle-button.active {
+        opacity: 1;
+        background: #1d2434;
+        border-color: #3d4763;
+      }
+      body.stats-mode #summary,
+      body.stats-mode #heatmaps,
+      body.stats-mode #typeButtons,
+      body.stats-mode #yearButtons,
+      body.stats-mode #resetAllRow,
+      body.stats-mode .controls {
+        display: none !important;
+      }
+      .stats-view[hidden] { display: none; }
+      .stats-view {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 8px 4px 40px;
+      }
+      .stats-section {
+        border: 1px solid #232a3d;
+        border-radius: 12px;
+        background: #0e1220;
+        padding: 18px 20px;
+      }
+      .stats-section h2 {
+        margin: 0 0 4px;
+        font-size: 16px;
+        letter-spacing: 0.02em;
+      }
+      .stats-section .stats-subtitle {
+        margin: 0 0 14px;
+        font-size: 12.5px;
+        opacity: 0.6;
+      }
+      .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+      .stats-card {
+        border: 1px solid #232a3d;
+        border-radius: 10px;
+        padding: 12px 14px;
+        background: #111627;
+      }
+      .stats-card .label { font-size: 12px; opacity: 0.6; }
+      .stats-card .value { font-size: 21px; font-weight: 600; margin: 4px 0 2px; }
+      .stats-card .delta { font-size: 12.5px; }
+      .delta-up { color: #3ddc84; }
+      .delta-down { color: #ff6b81; }
+      .delta-flat { opacity: 0.55; }
+      .stats-filters { display: flex; gap: 10px; flex-wrap: wrap; }
+      .stats-filters select {
+        padding: 7px 10px;
+        border-radius: 8px;
+        border: 1px solid #2b3245;
+        background: #10141f;
+        color: inherit;
+        font-size: 13.5px;
+      }
+      .stats-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+      .stats-table th, .stats-table td {
+        text-align: right;
+        padding: 7px 10px;
+        border-bottom: 1px solid #1c2333;
+        white-space: nowrap;
+      }
+      .stats-table th:first-child, .stats-table td:first-child { text-align: left; }
+      .stats-table th { opacity: 0.6; font-weight: 500; }
+      .stats-table-wrap { overflow-x: auto; }
+      .stats-chart svg { width: 100%; height: auto; display: block; }
       .lock-overlay[hidden] { display: none; }
       .lock-overlay {
         position: fixed;
@@ -1412,6 +1503,10 @@
         <div class="header-top">
           <div id="updated" class="updated"></div>
           <h1 id="dashboardTitle">Activity Heatmaps</h1>
+          <div class="view-toggle" id="viewToggle">
+            <button type="button" class="view-toggle-button active" data-view="heatmaps">Heatmaps</button>
+            <button type="button" class="view-toggle-button" data-view="stats">Stats</button>
+          </div>
           <div class="button-row" id="typeButtons"></div>
           <div class="button-row" id="yearButtons"></div>
           <div class="button-row" id="resetAllRow">
@@ -1443,6 +1538,7 @@
 
       <div id="summary" class="summary"></div>
       <div id="heatmaps" class="heatmaps"></div>
+      <div id="statsView" class="stats-view" hidden></div>
     </div>
 
     <div id="tooltip" class="tooltip"></div>

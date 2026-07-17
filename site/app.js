@@ -2260,6 +2260,35 @@ function addLockControl() {
   header.appendChild(lock);
 }
 
+function setupViewToggle(payload) {
+  const toggle = document.getElementById("viewToggle");
+  const statsView = document.getElementById("statsView");
+  if (!toggle || !statsView) return;
+  let statsRendered = false;
+
+  function activate(view) {
+    document.body.classList.toggle("stats-mode", view === "stats");
+    statsView.hidden = view !== "stats";
+    toggle.querySelectorAll(".view-toggle-button").forEach((button) => {
+      button.classList.toggle("active", button.dataset.view === view);
+    });
+    if (view === "stats" && !statsRendered && window.SweatyStats) {
+      SweatyStats.renderStats(statsView, payload);
+      statsRendered = true;
+    }
+    const targetHash = view === "stats" ? "#stats" : "";
+    if (window.location.hash !== targetHash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search + targetHash);
+    }
+  }
+
+  toggle.querySelectorAll(".view-toggle-button").forEach((button) => {
+    button.addEventListener("click", () => activate(button.dataset.view));
+  });
+
+  activate(window.location.hash === "#stats" ? "stats" : "heatmaps");
+}
+
 async function resolvePayload() {
   const resp = await fetch("data.json");
   if (!resp.ok) {
@@ -3387,6 +3416,8 @@ async function init() {
       { passive: true },
     );
   }
+
+  setupViewToggle(payload);
 }
 
 init().catch((error) => {
