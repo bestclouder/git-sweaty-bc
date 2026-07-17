@@ -192,6 +192,7 @@ jobs:
       - name: Run pipeline
         env:
           UPDATE_README_LINK: ${{ github.event_name != 'workflow_dispatch' || inputs.update_readme_link }}
+          DASHBOARD_PASSPHRASE: ${{ secrets.DASHBOARD_PASSPHRASE }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"

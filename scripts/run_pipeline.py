@@ -5,6 +5,7 @@ import subprocess
 from typing import Optional
 
 from aggregate import aggregate as aggregate_func
+from encrypt_data import encrypt_file_in_place
 from normalize import normalize as normalize_func
 from sync_garmin import sync_garmin
 from sync_strava import sync_strava
@@ -192,6 +193,12 @@ def run_pipeline(
     _write_aggregates(aggregates)
 
     generate_heatmaps(write_svgs=False)
+    passphrase = os.environ.get("DASHBOARD_PASSPHRASE", "").strip()
+    if passphrase:
+        encrypt_file_in_place(os.path.join("site", "data.json"), passphrase)
+        print("Encrypted site/data.json (DASHBOARD_PASSPHRASE configured).")
+    else:
+        print("DASHBOARD_PASSPHRASE not set; publishing plaintext site/data.json.")
     if not dry_run:
         _persist_source(source)
     if update_readme_link:
